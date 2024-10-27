@@ -22,7 +22,8 @@ An almost complete example is created here.
 - End goal for the prover to send a small string of data to the verifier so he/she can quickly check.
 - Most of the time, a ZK proof is essentially a polynomial evaluated at a random point.
 
-**QAP**
+- why this is a great method? cause instead of doing the comparison to verify the compute is correct which would take mxn steps in a matrix (O(n)), we can just do it in O(1)
+  **QAP**
 
 - QAP: A quadratic arithmetic program is an arithmetic circuit, specifically a R1CS represented as a set of polynomials. It is derived using Lagrange interpolation, on a Rank1 Constraint System.
 - Unlike an R1CS, a Quadratic Arithmetic Program (QAP) can be tested for equality in O(1) time via the Schwartz-Zippel Lemma.
