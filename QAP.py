@@ -122,9 +122,9 @@ V_polys = np.apply_along_axis(interpolate_columns, 0, R_galois)
 W_polys = np.apply_along_axis(interpolate_columns, 0, O_galois)
 
 
-print(U_polys)
-print(V_polys)
-print(W_polys)
+# print(U_polys)
+# print(V_polys)
+# print(W_polys)
 
 # [Poly(0, GF(79)) Poly(0, GF(79)) Poly(13x^3 + 41x^2 + 22x + 4, GF(79))
 #  Poly(42x^3 + 22x^2 + 35x + 59, GF(79))
@@ -137,3 +137,29 @@ print(W_polys)
 #  Poly(0, GF(79)) Poly(13x^3 + 41x^2 + 22x + 4, GF(79))
 #  Poly(53x^3 + 76x^2 + 34x + 74, GF(79))
 #  Poly(39x^3 + 43x^2 + 72x + 4, GF(79))]
+
+## computing h(x)
+# since there are 4 rows we already know t(x) = (x-1)(x-2)(x-3)(x-4)
+# QAP is
+# L*w x R*w = O*w + h(x)*t(x)
+
+def inner_product_polynomials_with_witness(polys, witness):
+    total = GF(0)
+    for p,w in zip(polys, witness):
+        total += p*w
+    print(total)
+    return total
+
+
+
+term1= inner_product_polynomials_with_witness(U_polys, witness)
+term2= inner_product_polynomials_with_witness(V_polys, witness)
+term3= inner_product_polynomials_with_witness(W_polys, witness)
+
+# t = (x-1)(x-2)(x-3)(x-4)
+t = galois.Poly([1, 78], field = GF) * galois.Poly([1, 77], field = GF)* galois.Poly([1, 76], field = GF) * galois.Poly([1, 75], field = GF)
+h = (term1 * term2 - term3) // t
+
+
+assert term1 * term2 == term3 + h * t, "division has a remainder"
+
