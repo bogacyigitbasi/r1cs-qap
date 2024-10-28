@@ -30,7 +30,7 @@ x^3 + 5x^2 + 6x + 14 = [1, 5, 6, 14].[x^3, x^2, x, 1]
 
 ## verifying a trusted setup was generated properly
 
-# we have the reference string = G1, G1*t, G1*t^2, G1*t^3 and a O value = t*G2
+# we have the reference string = G1, G1*t, G1*t^2, G1*t^3 and a O_2 value = t*G2
 
 # we compute the pairing e(G1, G1\*t^2)
 
@@ -45,3 +45,15 @@ x^3 + 5x^2 + 6x + 14 = [1, 5, 6, 14].[x^3, x^2, x, 1]
 See code example.
 
 **Multiparty Computation**
+
+- We cant just assume the person who generated structured reference string actually deleted tau (t)
+- IF we introduce an algorithm for multiple parties to create the srs, as long as one of them is honest then the discrete logs of the srs will remain unknown.
+
+- First Alice generates the srs as ([On,..O2,O1,G1], O_2) and share it with Bob
+- Bob verifies the srs is correct by using bilinear pairings
+- Bob selects his own secret parameter l and compute a new srs like
+  ([l^n*On,..., l^n-1*On-1,l^2*O2, l*O1,G1], l\*O_2)
+- now we have the discrete logs as ([(tl)^n,...,(tl)^2,(tl),1],tl) if either Alice or Bob delete their secret, then its not recoverable.
+
+**Use of trusted setup in ZK-Snarks**
+Evaluating a polynomial on a structured reference string doesnt reveal information about the polynomial to the verifier and the prover doesnt know what point they are evaluating on.
